@@ -19,7 +19,7 @@ Source for escape sequences is the ANSI Escape Code [Wikipedia article][1].
 It's primarily intended to make "status reports" easier to handle on
 long running applications that don't warrant a full GUI display.  These
 applications happen to be running on servers with a text only console.
-For some examples see the demo directory.  Run demo -h to see the help file.
+For some examples see the demo directory.  
 
 For the sake of simplicity I only implemented the functions needed for status reports.
 
