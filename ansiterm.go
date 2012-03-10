@@ -29,7 +29,7 @@ const (
 )
 
 var (
-	license = "Simplified BSD License, see ansiterm.md for details"
+	license = "Simplified BSD License, see README.md for details"
 )
 
 // erase whole page, leave cursor at 1,1
