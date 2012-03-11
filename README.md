@@ -79,4 +79,4 @@ The 'ansiterm' go package and demo programs are distributed under the Simplified
 > NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 > ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// EOF ansiterm.md  (this is a markdown document and tested OK with blackfriday)
+// EOF README.md  (this is a markdown document and tested OK with blackfriday)
