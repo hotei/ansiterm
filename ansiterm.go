@@ -87,3 +87,15 @@ func ResetTerm(attr int) {
 	}
 	fmt.Printf("033[1;1;%dm", attr)
 }
+
+func SetFGColor(c int){
+	fmt.Printf("\033[%dm", c+30)
+}
+
+func SetBGColor(c int){
+	fmt.Printf("\033[%dm", c+40)
+}
+
+
+
+
