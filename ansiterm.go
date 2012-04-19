@@ -85,17 +85,39 @@ func ResetTerm(attr int) {
 	if attr == NORMAL {
 		return
 	}
-	fmt.Printf("033[1;1;%dm", attr)
+	fmt.Printf("\033[1;1;%dm", attr)
+}
+
+
+/* 
+ * Additional ANSI features added 
+ */
+
+func SetColorNormal(){
+    sgr(22)
+}
+
+func SetColorBright(){
+    sgr(1)
 }
 
 func SetFGColor(c int){
-	fmt.Printf("\033[%dm", c+30)
+    sgr(c+30)
 }
 
 func SetBGColor(c int){
-	fmt.Printf("\033[%dm", c+40)
+	sgr(c+40)
 }
 
+func HideCursor(){
+    fmt.Printf("\033[?25l");
+}
 
+func ShowCursor(){
+    fmt.Printf("\033[?25h");
+}
 
+func sgr(i int){
+    fmt.Printf("\033[%dm", i)
+}
 
