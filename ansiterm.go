@@ -82,8 +82,43 @@ func MoveToXY(x, y int) {
 // 
 func ResetTerm(attr int) {
 	fmt.Printf("\033[1;80;0m") // restore normal attributes	
+	ShowCursor()
 	if attr == NORMAL {
 		return
 	}
-	fmt.Printf("033[1;1;%dm", attr)
+	fmt.Printf("\033[1;1;%dm", attr)
 }
+
+
+/* 
+ * Additional ANSI features added 
+ */
+
+func SetColorNormal(){
+    sgr(22)
+}
+
+func SetColorBright(){
+    sgr(1)
+}
+
+func SetFGColor(c int){
+    sgr(c+30)
+}
+
+func SetBGColor(c int){
+	sgr(c+40)
+}
+
+func HideCursor(){
+    fmt.Printf("\033[?25l");
+}
+
+func ShowCursor(){
+    fmt.Printf("\033[?25h");
+}
+
+func sgr(i int){
+    fmt.Printf("\033[%dm", i)
+}
+
