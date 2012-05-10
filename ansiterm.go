@@ -82,6 +82,7 @@ func MoveToXY(x, y int) {
 // 
 func ResetTerm(attr int) {
 	fmt.Printf("\033[1;80;0m") // restore normal attributes	
+	ShowCursor()
 	if attr == NORMAL {
 		return
 	}
