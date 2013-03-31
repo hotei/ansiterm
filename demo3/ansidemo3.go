@@ -7,32 +7,29 @@ import (
 	"ansiterm"
 	"fmt"
 	"math/rand"
-	"os"
+	//"os"
 	"time"
 )
 
 var license = "(c) 2012 David Rook - released under Simplified FreeBSD license"
 
 var sensors []chan int
-var fields []*Field
+
+var g_Form ansiterm.ScreenForm
 
 var runfor = 1 // minutes to run demo
-
-type Field struct {
-	Tag       string
-	Data      string
-	Row, Col  int
-	IsVisible bool
-}
 
 func init() {
 	sensors = make([]chan int, 0)
 }
 
+// generates a random temp reading between 32 and 132, then does 95% weighted avg
+// long term reading should stabilize around 82 degrees
+// readings appear at random with average rate of half the max sleep interval
 func tempSensor(t chan int) {
 	tempreading := 32
 	for {
-		sleepytime := rand.Int31n(10)
+		sleepytime := rand.Int31n(4)
 		time.Sleep(time.Duration(sleepytime) * time.Second)
 		newtemp := int(rand.Int31n(100) + 32)
 		tempreading = (tempreading*95 + newtemp*5) / 100
@@ -40,6 +37,7 @@ func tempSensor(t chan int) {
 	}
 }
 
+// generates seek error count that increases randomly at average of 30 per minute
 func seekerrSensor(s chan int) {
 	totalerrs := 0
 	for {
@@ -52,6 +50,7 @@ func seekerrSensor(s chan int) {
 	}
 }
 
+// generates a clock tick every second 
 func clockSensor(c chan int) {
 	ticks := 0
 	for {
@@ -78,52 +77,92 @@ func startSensors() {
 	fmt.Printf("startSensors() fini\n")
 }
 
-func initFields() {
-	var temp = Field{"Drive Temp(F):", "", 10, 10, true}
-	fields = append(fields, &temp)
+func setupForm() {
 
-	var seekerrs = Field{"Count seek errors:", "", 11, 10, true}
-	fields = append(fields, &seekerrs)
+	{
+		x := new(ansiterm.ScreenField)
+		x.SetTag("title")
+		x.SetRCW(2, 35, 15)
+		x.SetPrompt("ansiterm Demo 3")
+		g_Form.AddField(x)
+	}
+	x := new(ansiterm.ScreenField)
+	x.SetTag("temp")
+	x.SetRCW(10, 4, 21)
+	x.SetPrompt("Drive Temp: ")
+	g_Form.AddField(x)
 
-	var clock = Field{"TickTock:", "", 12, 10, true}
-	fields = append(fields, &clock)
+	y := new(ansiterm.ScreenField)
+	y.SetTag("seekerr")
+	y.SetRCW(11, 6, 15)
+	y.SetPrompt("SeekErrs: ")
+	g_Form.AddField(y)
 
-	fmt.Printf("initFields() fini\n")
+	z := new(ansiterm.ScreenField)
+	z.SetTag("time")
+	z.SetRCW(12, 10, 15)
+	z.SetPrompt("Time: ")
+	g_Form.AddField(z)
+
+	fmt.Printf("setupForm() fini\n")
 }
 
-// leaves cursor at end of last field updated
-func (f *Field) Show(s string) {
-	ansiterm.MoveToRC(f.Row, f.Col)
-	ansiterm.Erase(len(f.Tag) + len(f.Data))
-	f.Data = s
-	fmt.Printf("%s%s", f.Tag, f.Data)
+func progressBar(prompt string, row, col, barWidth int, p chan int, alldone int) {
+	var progress int
+	z := new(ansiterm.ScreenField)
+	z.SetTag("progress")
+	z.SetPrompt(prompt)
+	z.SetRCW(row, col, barWidth+len(prompt))
+	g_Form.AddField(z)
+	fmt.Printf("Progress bar started\n")
+	bar := "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	nobar := "...................................................................."
+	g_Form.UpdateMsg("progress", nobar)
+	for {
+		progress = <-p
+		var barlen int = (progress * barWidth) / alldone
+		s := bar[:barlen] + nobar[:barWidth-barlen]
+		g_Form.UpdateMsg("progress", s)
+	}
 }
 
 func main() {
 	ansiterm.ResetTerm(0)
 	ansiterm.ClearPage()
-	initFields()
+//	ansiterm.MoveToRC(13,13)
+//	ansiterm.QueryPosn()
+//	os.Exit(0)
+	ansiterm.HideCursor()
+	defer ansiterm.ShowCursor()
+	setupForm()
 	startSensors()
 	runfor = 1
-	done := time.After(time.Duration(runfor) * time.Minute)
-	fmt.Printf("This demo will stop after %d minutes\n", runfor)
-
+	prog := make(chan int)
+	// prompt, row,col,barWidth,listen chan, alldone
+	go progressBar("Progress: ", 20, 20, 50, prog, 60*runfor)
+	done := time.After(time.Duration(runfor) * time.Minute) // set up a timeout channel
+	fmt.Printf("This demo will stop after %d minute(s)\n", runfor)
+	time.Sleep(2 * time.Second)
 L1:
 	for {
 		select {
 		case t := <-sensors[0]:
-			fields[0].Show(fmt.Sprintf("%d", t))
+			g_Form.UpdateMsg("temp", fmt.Sprintf("%5d", t))
 		case t := <-sensors[1]:
-			fields[1].Show(fmt.Sprintf("%d", t))
+			g_Form.UpdateMsg("seekerr", fmt.Sprintf("%5d", t))
 		case t := <-sensors[2]:
-			fields[2].Show(fmt.Sprintf("%d", t))
+			g_Form.UpdateMsg("time", fmt.Sprintf("%5d", t))
+			g_Form.UpdateMsg("progress", fmt.Sprintf("%5d", t))
+			prog <- t
+			g_Form.Draw()
 		// note: label is required else it 'breaks' the select, not the for
 		case _ = <-done:
 			break L1
 		}
 	}
-	if false {
-		os.Exit(0)
+	if true { // optional wrapup stats
+		ansiterm.ClearPage()
+		ansiterm.ResetTerm(ansiterm.NORMAL)
+		fmt.Printf("<done>\n")
 	}
-	ansiterm.ClearPage()
 }
