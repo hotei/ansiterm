@@ -1,5 +1,6 @@
-// demo3.go
-// (c) 2012 David Rook 
+// demo3.go  (c) 2012-2013 David Rook 
+
+// note use "$ reset" to recover cursor if it is hidden on exit
 
 package main
 
@@ -129,9 +130,9 @@ func progressBar(prompt string, row, col, barWidth int, p chan int, alldone int)
 func main() {
 	ansiterm.ResetTerm(0)
 	ansiterm.ClearPage()
-//	ansiterm.MoveToRC(13,13)
-//	ansiterm.QueryPosn()
-//	os.Exit(0)
+	//	ansiterm.MoveToRC(13,13)
+	//	ansiterm.QueryPosn()  hangs
+	//	os.Exit(0)
 	ansiterm.HideCursor()
 	defer ansiterm.ShowCursor()
 	setupForm()

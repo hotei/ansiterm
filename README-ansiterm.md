@@ -5,9 +5,9 @@ ansiterm
 </center>
 
 License details are at the end of this document. 
-This document is (c) 2012 David Rook.
+This document is (c) 2012-2013 David Rook.
 
-Comments can be sent to <hotei1352@gmail.com> .  
+Comments can be sent to <hotei1352@gmail.com> .
 
 ---
 
@@ -19,7 +19,7 @@ Source for escape sequences is the ANSI Escape Code [Wikipedia article][1].
 It's primarily intended to make "status reports" easier to handle on
 long running applications that don't warrant a full GUI display.  These
 applications happen to be running on servers with a text only console.
-For some examples see the demo directory.  
+For some examples see the demo directory.
 
 For the sake of simplicity I only implemented the functions needed for status reports.
 
@@ -30,6 +30,9 @@ For the sake of simplicity I only implemented the functions needed for status re
 * Erase whole page
 * Move cursor to specific row,col
 * Reset terminal
+
+Several other functions were added by blamarche to handle color
+see code for details 
 
 You can see the [wiki][1] article mentions many more codes.  I have no plans at
 present to expand coverage but it's very easy to do.
@@ -53,11 +56,16 @@ Also note the following caveats for MS Windows - again from the [wiki][1]
 
 ---
 
+Journal
+-------
+* 2013-04-10 updated from blamarche pull request
+* 20?? - started
+
 License
 -------
 The 'ansiterm' go package and demo programs are distributed under the Simplified BSD License:
 
-> Copyright (c) 2012 David Rook. All rights reserved.
+> Copyright (c) 2012-2013 David Rook. All rights reserved.
 > 
 > Redistribution and use in source and binary forms, with or without modification, are
 > permitted provided that the following conditions are met:

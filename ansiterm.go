@@ -1,4 +1,5 @@
 // ansiterm.go
+
 // see http://en.wikipedia.org/wiki/ANSI_escape_code
 //		NOTE: won't work for older MSWin consoles - before DOS 2.0
 //		NOTE: won't work for newer MSWin consoles - Win32 and later
@@ -14,12 +15,15 @@
 //		See the demo program's Headline and StatusUpdate functions.
 //		Because that's ALL it was intended to do I have implemented only
 //		the ansi codes that were needed for that limited objective.
+//
+//  thanks to github user blamarche for additional functions SetFGColor and SetBGColor and misc fixes
 package ansiterm
 
-// BUG(mdr): need to make so prompt length is ignored in "width"
+// BUG(mdr): TODO - need to make so prompt length is ignored in "width"
 // row,col is where the data field starts, prompt (if any) is adjusted to print at left of data
 
 import (
+	// below are go 1.0.3 standard pkgs only
 	"fmt"
 	"os"
 	"sync"
@@ -129,16 +133,16 @@ func ClearPage() {
 // erase from cursor to end of line
 // 		ansi EL specific case n = missing
 func ClearLine() {
-	fmt.Printf("\033[K")	
+	fmt.Printf("\033[K")
 }
 
 // ansi Query Position returns Esc[row;colR
-// BUG(mdr): waits for Enter key since stdin is cooked
+// BUG(mdr): waits for Enter key if stdin is cooked, see go.crypto/ssh for raw io
 func QueryPosn() {
 	fmt.Printf("\033[6n")
-	var buf = make([]byte,20)
-	nin,err := os.Stdin.Read(buf)	
-	fmt.Printf("%s %d %v\n",buf,nin,err)
+	var buf = make([]byte, 20)
+	nin, err := os.Stdin.Read(buf)
+	fmt.Printf("%s %d %v\n", buf, nin, err)
 }
 
 // ansi SCP
@@ -151,12 +155,14 @@ func RestorePosn() {
 	fmt.Printf("\033[u")
 }
 
+// ansi DECTCEM
 func HideCursor() {
-	fmt.Printf("\033[?25l")	
+	fmt.Printf("\033[?25l")
 }
 
+// ansi DECTCEM
 func ShowCursor() {
-	fmt.Printf("\033[?25h")	
+	fmt.Printf("\033[?25h")
 }
 
 // BUG(mdr): not very efficient - Erase(n)
@@ -186,9 +192,47 @@ func MoveToXY(x, y int) {
 
 // 
 func ResetTerm(attr int) {
-	fmt.Printf("\033[1;80;0m") // restore normal attributes	
+	fmt.Printf("\033[1;80;0m") // restore normal attributes
+	ShowCursor()
 	if attr == NORMAL {
 		return
 	}
-	fmt.Printf("033[1;1;%dm", attr)
+	fmt.Printf("\033[1;1;%dm", attr)
 }
+
+/* 
+func SetFGColor(c int){
+  fmt.Printf("\033[%dm", c+30)
+}
+
+func SetBGColor(c int){
+  fmt.Printf("\033[%dm", c+40)
+}
+*/
+
+/* 
+ * Additional ANSI features for color screens 
+ */
+
+ // Select Graphic Rendition
+func sgr(i int) {
+	fmt.Printf("\033[%dm", i)
+}
+
+func SetColorNormal() {
+	sgr(22)
+}
+
+func SetColorBright() {
+	sgr(1)
+}
+
+func SetFGColor(c int) {
+	sgr(c + 30)
+}
+
+func SetBGColor(c int) {
+	sgr(c + 40)
+}
+
+
