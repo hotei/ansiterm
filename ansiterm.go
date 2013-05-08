@@ -17,13 +17,36 @@
 //		the ansi codes that were needed for that limited objective.
 //
 //  thanks to github user blamarche for additional functions SetFGColor and SetBGColor and misc fixes
+
+/*
+This package allows you to control consoles, xterms and other things that respond
+to ANSI Escape Code sequences.
+
+Useful in situations where you use ssh to run a
+program remotely but want more than just scrolling output.
+
+  Install
+  -------
+  go get github.com/hotei/ansiterm
+
+  Limitations
+  -----------
+  Not all Esc sequences are implemented (by design)
+  Performance speed of drawing text is very good, but could be improved a few percent.
+  Forms support is lightweight - example in demo3
+  If cursor is hidden on exit - try "reset" in shell
+    Good programming practice to do ResetTerm(0) on exit in caller's code
+
+ (c) 2013 David Rook - License is BSD style - see LICENSE.md
+  Also see README.md for more info
+*/
 package ansiterm
 
 // BUG(mdr): TODO - need to make so prompt length is ignored in "width"
 // row,col is where the data field starts, prompt (if any) is adjusted to print at left of data
 
 import (
-	// below are go 1.0.3 standard pkgs only
+	// below are go 1.X standard pkgs only
 	"fmt"
 	"os"
 	"sync"
@@ -136,8 +159,8 @@ func ClearLine() {
 	fmt.Printf("\033[K")
 }
 
-// ansi Query Position returns Esc[row;colR
 // BUG(mdr): waits for Enter key if stdin is cooked, see go.crypto/ssh for raw io
+// ansi Query Position returns Esc[row;colR
 func QueryPosn() {
 	fmt.Printf("\033[6n")
 	var buf = make([]byte, 20)
@@ -190,7 +213,7 @@ func MoveToXY(x, y int) {
 	MoveToRC(y, x)
 }
 
-// 
+//
 func ResetTerm(attr int) {
 	fmt.Printf("\033[1;80;0m") // restore normal attributes
 	ShowCursor()
@@ -200,7 +223,7 @@ func ResetTerm(attr int) {
 	fmt.Printf("\033[1;1;%dm", attr)
 }
 
-/* 
+/*
 func SetFGColor(c int){
   fmt.Printf("\033[%dm", c+30)
 }
@@ -210,11 +233,11 @@ func SetBGColor(c int){
 }
 */
 
-/* 
- * Additional ANSI features for color screens 
+/*
+ * Additional ANSI features for color screens
  */
 
- // Select Graphic Rendition
+// Select Graphic Rendition
 func sgr(i int) {
 	fmt.Printf("\033[%dm", i)
 }
@@ -234,5 +257,3 @@ func SetFGColor(c int) {
 func SetBGColor(c int) {
 	sgr(c + 40)
 }
-
-

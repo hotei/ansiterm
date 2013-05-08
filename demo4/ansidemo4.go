@@ -1,5 +1,5 @@
 // demo4.go
-// (c) 2012 David Rook 
+// (c) 2012 David Rook
 
 package main
 

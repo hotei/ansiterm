@@ -1,6 +1,6 @@
 // SimpleVT100.go
 
-/* 
+/*
  * (c) 2010 David Rook
  */
 
@@ -110,7 +110,7 @@ func ansieeol() {
 	ttputc('K')
 }
 
-// erase to end of page 
+// erase to end of page
 func ansieeop() {
 	ansifcolor(cfcolor)
 	ansibcolor(cbcolor)

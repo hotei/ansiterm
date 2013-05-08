@@ -1,4 +1,4 @@
-// demo3.go  (c) 2012-2013 David Rook 
+// demo3.go  (c) 2012-2013 David Rook
 
 // note use "$ reset" to recover cursor if it is hidden on exit
 
@@ -51,7 +51,7 @@ func seekerrSensor(s chan int) {
 	}
 }
 
-// generates a clock tick every second 
+// generates a clock tick every second
 func clockSensor(c chan int) {
 	ticks := 0
 	for {
