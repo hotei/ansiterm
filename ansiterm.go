@@ -37,13 +37,18 @@ program remotely but want more than just scrolling output.
   If cursor is hidden on exit - try "reset" in shell
     Good programming practice to do ResetTerm(0) on exit in caller's code
 
+  TODO
+  ----
+  * make more efficient - Erase(n)
+  * API change: need to make so prompt length is ignored in "width"
+    row,col is where the data field starts, prompt (if any) is adjusted to print at left of data
+  * BUG: QueryPosn() waits for Enter key if stdin is cooked, see go.crypto/ssh for raw io
+    Change status to "not implemented" for now.
+
  (c) 2013 David Rook - License is BSD style - see LICENSE.md
   Also see README.md for more info
 */
 package ansiterm
-
-// BUG(mdr): TODO - need to make so prompt length is ignored in "width"
-// row,col is where the data field starts, prompt (if any) is adjusted to print at left of data
 
 import (
 	// below are go 1.X standard pkgs only
@@ -159,15 +164,15 @@ func ClearLine() {
 	fmt.Printf("\033[K")
 }
 
-// BUG(mdr): waits for Enter key if stdin is cooked, see go.crypto/ssh for raw io
 // ansi Query Position returns Esc[row;colR
+/*
 func QueryPosn() {
 	fmt.Printf("\033[6n")
 	var buf = make([]byte, 20)
 	nin, err := os.Stdin.Read(buf)
 	fmt.Printf("%s %d %v\n", buf, nin, err)
 }
-
+*/
 // ansi SCP
 func SavePosn() {
 	fmt.Printf("\033[s")
@@ -188,7 +193,6 @@ func ShowCursor() {
 	fmt.Printf("\033[?25h")
 }
 
-// BUG(mdr): not very efficient - Erase(n)
 // erase N chars but dont move cursor position (clear field for printing)
 func Erase(nchars int) {
 	i := 0
