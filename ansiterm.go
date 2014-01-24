@@ -53,7 +53,7 @@ package ansiterm
 import (
 	// below are go 1.X standard pkgs only
 	"fmt"
-	"os"
+	//	"os"
 	"sync"
 )
 
