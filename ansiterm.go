@@ -118,6 +118,10 @@ func ShowCursor(){
     fmt.Printf("\033[?25h");
 }
 
+func SetRawANSI(s string) {
+    fmt.Printf("\033[%s", s)
+}
+
 func sgr(i int){
     fmt.Printf("\033[%dm", i)
 }
