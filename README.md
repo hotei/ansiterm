@@ -12,7 +12,7 @@ Comments can be sent to <hotei1352@gmail.com>
 Description
 -----------
 This [package][1] allows you to control consoles, xterms and other things that respond
-to ANSI Escape Code sequences.
+to ANSI Escape Code sequences.  Compiles with go 1.2 (and other 1.X as well).
 
 ---
 
