@@ -3,7 +3,7 @@
 package main
 
 import (
-	"ansiterm"
+	"github.com/hotei/ansiterm"
 	"flag"
 	"fmt"
 	"math/rand"

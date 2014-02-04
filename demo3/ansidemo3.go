@@ -5,7 +5,7 @@
 package main
 
 import (
-	"ansiterm"
+	"github.com/hotei/ansiterm"
 	"fmt"
 	"math/rand"
 	//"os"
