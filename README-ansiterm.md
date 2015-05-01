@@ -5,14 +5,14 @@ ansiterm
 </center>
 
 License details are at the end of this document. 
-This document is (c) 2013 David Rook.
+This document is (c) 2013-2015 David Rook.
 
 Comments can be sent to <hotei1352@gmail.com>
 
 Description
 -----------
 This [package][1] allows you to control consoles, xterms and other things that respond
-to ANSI Escape Code sequences.  Compiles with go 1.2 (and other 1.X as well).
+to ANSI Escape Code sequences.  Compiles with go 1.4.2 (and other 1.X as well).
 
 ---
 

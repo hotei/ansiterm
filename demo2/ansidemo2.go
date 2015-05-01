@@ -1,13 +1,15 @@
-// ansidemo2.go
+// ansidemo2.go (c) 2012-2015 David Rook
 
 package main
 
 import (
-	"github.com/hotei/ansiterm"
 	"flag"
 	"fmt"
 	"math/rand"
 	"time"
+
+	// non-local pkgs
+	"github.com/hotei/ansiterm"
 )
 
 type Ipt struct {

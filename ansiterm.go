@@ -1,4 +1,4 @@
-// ansiterm.go
+// ansiterm.go (c) 2012-2015 David Rook
 
 // see http://en.wikipedia.org/wiki/ANSI_escape_code
 //		NOTE: won't work for older MSWin consoles - before DOS 2.0

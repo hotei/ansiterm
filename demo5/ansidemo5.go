@@ -1,12 +1,14 @@
-// demo5.go
+// ansidemo5.go
 // contributed by blamarche
 
 package main
 
 import (
-	"github.com/hotei/ansiterm"
 	"fmt"
 	"time"
+
+	// non-local pkgs
+	"github.com/hotei/ansiterm"
 )
 
 func main() {

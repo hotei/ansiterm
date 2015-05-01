@@ -49,5 +49,7 @@ types so that it wouldn't be possible to get sensors and fields out of sync.
 Initially I thought the array method might be easier to understand, but now that
 I've written a few lines of the alternative - I'm not so sure.  See demo4 for code.
 
+if you quit before the program finishes the cursor may not appear again.  Use
+the bash shell __reset__ command to get the cursor back.
 
 // EOF demo3.md  (this is a markdown document and tested OK with blackfriday)

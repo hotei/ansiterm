@@ -1,13 +1,15 @@
-// demo.go
+// ansidemo1.go (c) 2012-2015 David Rook
 
 package main
 
 import (
-	"github.com/hotei/ansiterm"
 	"flag"
 	"fmt"
 	"math/rand"
 	"time"
+
+	// non-local pkgs
+	"github.com/hotei/ansiterm"
 )
 
 func pause(n time.Duration) {
@@ -36,7 +38,7 @@ func StatusUpdate(s string) {
 }
 
 func test_1() {
-	const pauseSec = 2
+	const pauseSec = 5
 	fmt.Printf("Test_001\n")
 	ansiterm.ResetTerm(ansiterm.NORMAL)
 	defer ansiterm.ClearPage()

@@ -1,15 +1,16 @@
-// demo3.go  (c) 2012-2013 David Rook
+// ansidemo3.go  (c) 2012-2015 David Rook
 
 // note use "$ reset" to recover cursor if it is hidden on exit
 
 package main
 
 import (
-	"github.com/hotei/ansiterm"
 	"fmt"
 	"math/rand"
-	//"os"
 	"time"
+
+	// non-local pkgs
+	"github.com/hotei/ansiterm"
 )
 
 var license = "(c) 2012 David Rook - released under Simplified FreeBSD license"

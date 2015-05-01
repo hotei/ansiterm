@@ -1,7 +1,7 @@
-// SimpleVT100.go
+// SimpleVT100.go (c) 2010 David Rook
 
 /*
- * (c) 2010 David Rook
+ * early version translated from C code I wrote a long while ago
  */
 
 package main
@@ -181,5 +181,5 @@ func main() {
 	fmt.Printf("SimpleVT100.go\n")
 	test()
 	fmt.Printf("White is %d\n", WHITE)
-
+	fmt.Printf("use shell reset command to get normal colors and cursor restored\n")
 }

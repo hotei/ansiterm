@@ -1,14 +1,15 @@
-// demo4.go
-// (c) 2012 David Rook
+// ansidemo4.go (c) 2012 David Rook
 
 package main
 
 import (
-	"github.com/hotei/ansiterm"
 	"fmt"
 	"math/rand"
 	"os"
 	"time"
+
+	// non-local pkgs
+	"github.com/hotei/ansiterm"
 )
 
 var license = "(c) 2012 David Rook - released under Simplified FreeBSD license"
